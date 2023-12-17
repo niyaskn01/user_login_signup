@@ -5,6 +5,8 @@ import { Visibility, VisibilityOff } from '@mui/icons-material';
 import axiosInstance from '../axios/axios';
 import { useNavigate } from 'react-router-dom';
 import toast from 'react-hot-toast';
+import { useDispatch } from 'react-redux';
+import { setUser } from '../redux/store';
 
 
 const Paper = styled('div')({
@@ -30,6 +32,7 @@ const [email,setEmail]=useState('')
 const [password,setPassword]=useState('')
 const [showPassword, setShowPassword] = useState(false);
 const navigate=useNavigate()
+const dispatch=useDispatch()
 
 //login function
 const handleSubmit=async(e)=>{
@@ -46,6 +49,7 @@ const handleSubmit=async(e)=>{
       }
 
       localStorage.setItem('userData',JSON.stringify(userInfo))
+      dispatch(setUser({userID:data.user._id,token:data.token}))
       
       setTimeout(() => {
         toast.success(data.message)
