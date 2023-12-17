@@ -1,11 +1,11 @@
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import Layout from '../components/Layout';
 import { Button, Container, CssBaseline, TextField, Typography, styled, IconButton, InputAdornment  } from '@mui/material';
 import { Visibility, VisibilityOff } from '@mui/icons-material';
 import axiosInstance from '../axios/axios';
 import { useNavigate } from 'react-router-dom';
 import toast from 'react-hot-toast';
-import { useDispatch } from 'react-redux';
+import { useDispatch, useSelector } from 'react-redux';
 import { setUser } from '../redux/store';
 
 
@@ -33,6 +33,7 @@ const [password,setPassword]=useState('')
 const [showPassword, setShowPassword] = useState(false);
 const navigate=useNavigate()
 const dispatch=useDispatch()
+const {userID,token}=useSelector(state=>state.userData)
 
 //login function
 const handleSubmit=async(e)=>{
@@ -47,7 +48,7 @@ const handleSubmit=async(e)=>{
         userID:data.user._id,
         token:data.token
       }
-
+      
       localStorage.setItem('userData',JSON.stringify(userInfo))
       dispatch(setUser({userID:data.user._id,token:data.token}))
       
@@ -65,7 +66,11 @@ const handleSubmit=async(e)=>{
 const handlePasswordVisibility = () => {
   setShowPassword(!showPassword);
 };
-
+useEffect(()=>{
+  if(userID && token){
+    navigate('/')
+  }
+})
   return (
     <Layout>
       <Container component="main" maxWidth="xs">

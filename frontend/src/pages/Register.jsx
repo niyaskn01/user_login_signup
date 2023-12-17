@@ -1,10 +1,11 @@
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import Layout from '../components/Layout';
 import { Button, Container, CssBaseline, TextField, Typography, styled, IconButton, InputAdornment  } from '@mui/material';
 import { Visibility, VisibilityOff } from '@mui/icons-material';
 import axiosInstance from '../axios/axios';
 import { useNavigate } from 'react-router-dom';
 import toast from 'react-hot-toast';
+import { useSelector } from 'react-redux';
 
 
 const Paper = styled('div')({
@@ -29,6 +30,7 @@ const [email,setEmail]=useState('')
 const [password,setPassword]=useState('')
 const [name,setName]=useState('')
 const [showPassword, setShowPassword] = useState(false);
+const {userID,token}=useSelector(state=>state.userData)
 const navigate=useNavigate()
 
 //login function
@@ -61,6 +63,12 @@ const handleSubmit=async(e)=>{
 const handlePasswordVisibility = () => {
   setShowPassword(!showPassword);
 };
+
+useEffect(()=>{
+  if(userID && token){
+    navigate('/')
+  }
+},[])
 
   return (
     <Layout>
