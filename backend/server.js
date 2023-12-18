@@ -10,6 +10,9 @@ app.use(express.json())
 db()
 
 app.use('/user',userRouter)
+app.get('/',(req,res)=>{
+  res.send('test URL')
+})
 
 const port=process.env.PORT || 8080
 
